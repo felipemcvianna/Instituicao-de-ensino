@@ -9,7 +9,16 @@ namespace ProjetoInstituicaoDeEnsino
 {
     public class Coordenador : Professor
     {
-        public DateTime Inicio { get; set; }
+        public readonly DateTime Inicio = new DateTime();
+        //public bool Transformar(object obj)
+        //{
+        //    if (obj is Professor)
+        //    {
+        //        this = obj as Professor;
+        //        return true;
+        //    }
+        //    return false;
+        //}
         public override bool Equals(object? obj)
         {
             if (obj != null)

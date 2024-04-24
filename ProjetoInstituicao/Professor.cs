@@ -9,9 +9,10 @@ namespace ProjetoInstituicaoDeEnsino
 {
     public class Professor
     {
-        public string Nome {  get; set; }
+        public string Nome {  get; set; }        
         public DateTime Contratacao { get; set; }
-        public HashSet<Curso> Cursos { get; set; }
+        public HashSet<Curso> Cursos { get; set; } = new HashSet<Curso>();
+
         public override bool Equals(object? obj)
         {
             if (obj != null)
@@ -27,6 +28,10 @@ namespace ProjetoInstituicaoDeEnsino
         public override int GetHashCode()
         {
             return (11 + Nome == null ? 0 : Nome.GetHashCode());
+        }
+        public override string ToString()
+        {
+            return "Nome: " + Nome;
         }
     }
 }

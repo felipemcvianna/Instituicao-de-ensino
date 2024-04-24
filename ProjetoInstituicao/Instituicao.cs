@@ -17,7 +17,7 @@
         {
             return Nome;
         }
-        public void teste()
+        public void Mostrar()
         {
             Console.WriteLine($"\n\nDepartamentos da instituicao de ensino {Nome}\n");
             if (Departamentos.Count != 0)
