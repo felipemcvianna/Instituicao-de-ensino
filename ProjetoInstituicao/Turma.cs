@@ -6,29 +6,57 @@ namespace ProjetoInstituicao
     public class Turma
     {
         public string Codigo { get; set; }
-        public Curso Curso { get; private set; }
+        private Curso _curso { get; set; }
+        public Curso Curso
+        {
+            get { return _curso; }
+            set
+            {
+                _curso = value;
+            }
+
+        }
         public PeriodoCursoEnum Periodo { get; set; }
         public TurnoTurmaEnum Turno { get; set; }
+        private HashSet<Matricula> privateMatricula = new HashSet<Matricula>();
+        public HashSet<Matricula> Matriculas => new HashSet<Matricula>(privateMatricula);
+
+        public void RegistrarMatricula(Matricula mat)
+        {
+            if (privateMatricula.Count >= 2)
+            {
+                throw new Exception("Matriculas esgotadas");
+            }
+            else
+            {
+                privateMatricula.Add(mat);
+                mat.Turma = this;
+            }
+        }
         public Turma(string codigo, Curso curso)
         {
             Codigo = codigo;
-            RegistrarCurso(curso);
             curso.RegistrarTurma(this);
         }
 
         public void RegistrarCurso(Curso curso)
         {
-            if (Curso == null && curso.Nome != null)
+            if (Curso != curso)
             {
                 Curso = curso;
             }
+            else
+            {
+                throw new InvalidOperationException("Curso já registrado");
+            }
+
         }
         public void EncerrarAssociacao()
         {
-            if(Curso != null && Curso.Turmas.Contains(this))
+            if (Curso != null && Curso.Turmas.Contains(this))
             {
                 Curso.Turmas.Remove(this);
-                Curso = null;
+                _curso = null;
             }
         }
         public override bool Equals(object? obj)

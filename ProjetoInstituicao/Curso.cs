@@ -9,32 +9,36 @@ namespace Primeiroprojeto
         public string Nome { get; set; }
         public int CargaHoraria { get; set; }
         private HashSet<Professor> privateProfessores = new HashSet<Professor>();
-        public HashSet<Professor> Professores { get { return privateProfessores; } }        
-        private HashSet<Disciplina> privateDisciplinas  = new HashSet<Disciplina>();
-        public HashSet<Disciplina> Disciplinas { get  { return privateDisciplinas; }
-        }
+        public HashSet<Professor> Professores => new HashSet<Professor>(privateProfessores);
+        
+        private HashSet<Disciplina> privateDisciplinas = new HashSet<Disciplina>();
+        public HashSet<Disciplina> Disciplinas => new HashSet<Disciplina>(privateDisciplinas);
         private HashSet<Turma> privateTurma = new HashSet<Turma>();
-        public HashSet<Turma> Turmas { get { return privateTurma; } }
-        public void RegistrarProfessores(Professor Prof)
+        public HashSet<Turma> Turmas => new HashSet<Turma>(privateTurma);
+        private HashSet<Aluno> privateAlunos = new HashSet<Aluno>();
+        public HashSet<Aluno> Alunos => new HashSet<Aluno>(privateAlunos);  
+        public void RegistrarProfessores(Professor Professor)
         {
-            if (!String.IsNullOrEmpty(Prof.Nome))
+            if (!String.IsNullOrEmpty(Professor.Nome))
             {
-                Prof.Cursos.Add(this);
-                privateProfessores.Add(Prof);
+                privateProfessores.Add(Professor);
+                Professor.Cursos.Add(this);
             }
         }
-        public void RegistrarDisciplinas(Disciplina d)
+        public void RegistrarDisciplinas(Disciplina disciplina)
         {
-            if (!String.IsNullOrEmpty(d.Nome))
-            {
-                privateDisciplinas.Add(d);
-            }
-        }       
-        public void RegistrarTurma(Turma t)
+            Disciplinas.Add(disciplina);
+            disciplina.RegistrarCursos(this);
+        }
+        public void RegistrarTurma(Turma turma)
         {
-            if (!String.IsNullOrEmpty(t.Codigo)) { privateTurma.Add(t); } 
-            else { throw new Exception("Turma sem identificação"); }
-            
+            Turmas.Add(turma);
+            turma.RegistrarCurso(this);
+        }
+        public void RegistrarAlunos(Aluno aluno)
+        {
+            Alunos.Add(aluno);
+            aluno.RegistrarCursos(this);
         }
         public int ObterQtdDisciplinas()
         {
@@ -57,7 +61,7 @@ namespace Primeiroprojeto
             privateDisciplinas.Clear();
             privateProfessores.Clear();
             privateTurma.Clear();
-        }        
+        }
         public override string ToString()
         {
             StringBuilder sb = new();

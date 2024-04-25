@@ -9,6 +9,10 @@ namespace ProjetoInstituicaoDeEnsino
 {
     public class Graduacao : Curso
     {
+        public Graduacao(string nome)
+        {
+            Nome = nome;
+        }
         public int Semestres { get; set; }
     }
 }

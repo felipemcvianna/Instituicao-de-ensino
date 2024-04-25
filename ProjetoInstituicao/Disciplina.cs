@@ -4,6 +4,19 @@
     {
         public string Nome { get; set; }
         public int CargaHoraria { get; set; }
+        public HashSet<Curso> Cursos { get; set; } = new HashSet<Curso>();
+        public Disciplina(string nome, Curso curso)
+        {
+            Nome = nome;
+            curso.RegistrarDisciplinas(this);
+        }
+        public void RegistrarCursos(Curso cursos)
+        {
+            if (!Cursos.Contains(cursos))
+            {
+                Cursos.Add(cursos);
+            }
+        }
         public override bool Equals(object? obj)
         {
             if (obj is Disciplina)

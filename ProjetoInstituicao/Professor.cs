@@ -12,7 +12,14 @@ namespace ProjetoInstituicaoDeEnsino
         public string Nome {  get; set; }        
         public DateTime Contratacao { get; set; }
         public HashSet<Curso> Cursos { get; set; } = new HashSet<Curso>();
-
+        public void RegistraCurso(Curso curso)
+        {
+            if (!Cursos.Contains(curso))
+            {
+                Cursos.Add(curso);
+            }     
+        }
+        
         public override bool Equals(object? obj)
         {
             if (obj != null)
