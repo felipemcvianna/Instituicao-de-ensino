@@ -19,16 +19,7 @@ namespace Primeiroprojeto
             foreach (var cursos in repositorio.Cursos)
             {
                 Console.WriteLine($"===> {cursos.Nome} ({cursos.GetType()})");
-            }
-            Turma t = new Turma("3", graduacao);
-            Disciplina disc = new("POO", graduacao);
-            Matricula mat = new Matricula(new Aluno("Felipe", "fewvre", graduacao), t, disc);
-            t.RegistrarMatricula(mat); 
-            Matricula mat1 = new Matricula(new Aluno("fer", "erg", graduacao), t, disc);
-            t.RegistrarMatricula(mat1);
-            Matricula mat2 = new Matricula(new Aluno("rtv", "teste", graduacao), t, disc);
-            t.RegistrarMatricula(mat2);
-            Console.WriteLine(t.Matriculas.Count);
+            }            
         }        
     }    
 }

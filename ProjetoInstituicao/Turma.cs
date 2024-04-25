@@ -16,14 +16,22 @@ namespace ProjetoInstituicao
             }
 
         }
+        public readonly int QTDVagas;
         public PeriodoCursoEnum Periodo { get; set; }
         public TurnoTurmaEnum Turno { get; set; }
         private HashSet<Matricula> privateMatricula = new HashSet<Matricula>();
         public HashSet<Matricula> Matriculas => new HashSet<Matricula>(privateMatricula);
-
+        public Turma(string codigo, Curso curso, int QTD, PeriodoCursoEnum periodo, TurnoTurmaEnum turno)
+        {
+            Codigo = codigo;
+            QTDVagas = QTD;
+            Periodo = periodo;
+            Turno = turno;
+            curso.RegistrarTurma(this);
+        }
         public void RegistrarMatricula(Matricula mat)
         {
-            if (privateMatricula.Count >= 2)
+            if (privateMatricula.Count >= QTDVagas)
             {
                 throw new Exception("Matriculas esgotadas");
             }
@@ -31,14 +39,9 @@ namespace ProjetoInstituicao
             {
                 privateMatricula.Add(mat);
                 mat.Turma = this;
+                mat.Disciplina.RegistrarMatricula(mat);
             }
         }
-        public Turma(string codigo, Curso curso)
-        {
-            Codigo = codigo;
-            curso.RegistrarTurma(this);
-        }
-
         public void RegistrarCurso(Curso curso)
         {
             if (Curso != curso)
@@ -74,7 +77,7 @@ namespace ProjetoInstituicao
         }
         public override string ToString()
         {
-            return Codigo;
+            return "Codigo da Turma: " + Codigo + "\n" + Curso.Nome + "\n" + "Quantidade de vagas: " + QTDVagas + "\n" + "Periodo: " + Periodo + "\n" + "Turno: " + Turno;
         }
     }
 }
