@@ -6,41 +6,34 @@ namespace ProjetoInstituicao
     public class Turma
     {
         public string Codigo { get; set; }
-        private Curso _curso { get; set; }
+        private Curso privateCurso { get; set; }
         public Curso Curso
         {
-            get { return _curso; }
-            set
-            {
-                _curso = value;
-            }
-
+            get { return privateCurso; }
+            set { privateCurso = value; }
         }
         public readonly int QTDVagas;
         public PeriodoCursoEnum Periodo { get; set; }
-        public TurnoTurmaEnum Turno { get; set; }
-        private HashSet<Matricula> privateMatricula = new HashSet<Matricula>();
-        public HashSet<Matricula> Matriculas => new HashSet<Matricula>(privateMatricula);
+        public TurnoTurmaEnum Turno { get; set; }        
+        public HashSet<Matricula> Matriculas = new HashSet<Matricula>();
         public Turma(string codigo, Curso curso, int QTD, PeriodoCursoEnum periodo, TurnoTurmaEnum turno)
         {
             Codigo = codigo;
             QTDVagas = QTD;
             Periodo = periodo;
-            Turno = turno;
-            curso.RegistrarTurma(this);
+            Turno = turno;           
+            curso.RegistrarTurmas(this);
         }
         public void RegistrarMatricula(Matricula mat)
         {
-            if (privateMatricula.Count >= QTDVagas)
+            if (Matriculas.Count >= QTDVagas)
             {
                 throw new Exception("Matriculas esgotadas");
             }
-            else
-            {
-                privateMatricula.Add(mat);
-                mat.Turma = this;
-                mat.Disciplina.RegistrarMatricula(mat);
-            }
+            Matriculas.Add(mat);
+            mat.Turma = this;
+            mat.Disciplina.RegistrarMatricula(mat);
+            mat.Aluno.RegistraMatricula(mat);
         }
         public void RegistrarCurso(Curso curso)
         {
@@ -48,21 +41,8 @@ namespace ProjetoInstituicao
             {
                 Curso = curso;
             }
-            else
-            {
-                throw new InvalidOperationException("Curso já registrado");
-            }
-
         }
-        public void EncerrarAssociacao()
-        {
-            if (Curso != null && Curso.Turmas.Contains(this))
-            {
-                Curso.Turmas.Remove(this);
-                _curso = null;
-            }
-        }
-        public override bool Equals(object? obj)
+        public override bool Equals(object obj)
         {
             if (obj is Turma)
             {
@@ -77,7 +57,7 @@ namespace ProjetoInstituicao
         }
         public override string ToString()
         {
-            return "Codigo da Turma: " + Codigo + "\n" + Curso.Nome + "\n" + "Quantidade de vagas: " + QTDVagas + "\n" + "Periodo: " + Periodo + "\n" + "Turno: " + Turno;
+            return "Codigo da Turma: " + Codigo + "\n" + Curso.Nome + "\n" + "Periodo: " + Periodo + "\n" + "Turno: " + Turno;
         }
     }
 }

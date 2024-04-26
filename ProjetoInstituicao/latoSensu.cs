@@ -9,9 +9,10 @@ namespace ProjetoInstituicao
 {
     public class latoSensu : PosGraduacao
     {
-        public latoSensu(string nome)
+        public latoSensu(string nome, int cargahoraria)
         {
             Nome = nome;
+            CargaHoraria = cargahoraria;
         }
         public string AreaDeAtuacao { get; set; }
     }

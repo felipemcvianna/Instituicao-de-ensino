@@ -1,4 +1,5 @@
-﻿using ProjetoInstituicao;
+﻿using Maybe.SkipList;
+using ProjetoInstituicao;
 using ProjetoInstituicaoDeEnsino;
 using System.Text;
 
@@ -8,59 +9,99 @@ namespace Primeiroprojeto
     {
         public string Nome { get; set; }
         public int CargaHoraria { get; set; }
-        private HashSet<Professor> privateProfessores = new HashSet<Professor>();
-        public HashSet<Professor> Professores => new HashSet<Professor>(privateProfessores);
-        
-        private HashSet<Disciplina> privateDisciplinas = new HashSet<Disciplina>();
-        public HashSet<Disciplina> Disciplinas => new HashSet<Disciplina>(privateDisciplinas);
-        private HashSet<Turma> privateTurma = new HashSet<Turma>();
-        public HashSet<Turma> Turmas => new HashSet<Turma>(privateTurma);
-        private HashSet<Aluno> privateAlunos = new HashSet<Aluno>();
-        public HashSet<Aluno> Alunos => new HashSet<Aluno>(privateAlunos);  
+        public HashSet<Professor> Professores = new HashSet<Professor>();
+        public HashSet<Disciplina> Disciplinas = new HashSet<Disciplina>();
+
+        public HashSet<Turma> Turmas = new HashSet<Turma>();
+        public HashSet<Aluno> Alunos = new HashSet<Aluno>();
         public void RegistrarProfessores(Professor Professor)
         {
-            if (!String.IsNullOrEmpty(Professor.Nome))
+            if (Professores.Contains(Professor))
+                throw new ArgumentException("professor já registrado");
+            Professores.Add(Professor);
+            Professor.RegistrarCursos(this);
+        }
+            public virtual void RegistrarDisciplinas(Disciplina disciplina)
             {
-                privateProfessores.Add(Professor);
-                Professor.Cursos.Add(this);
+                if (Disciplinas.Contains(disciplina))
+                    throw new ArgumentException("Disciplina já registrada");
+                Disciplinas.Add(disciplina);
+                disciplina.RegistrarCursos(this);
             }
-        }
-        public void RegistrarDisciplinas(Disciplina disciplina)
+        public void RegistrarTurmas(Turma turma)
         {
-            Disciplinas.Add(disciplina);
-            disciplina.RegistrarCursos(this);
-        }
-        public void RegistrarTurma(Turma turma)
-        {
+            if (Turmas.Contains(turma))
+                throw new ArgumentException("Turma já registrada");
             Turmas.Add(turma);
             turma.RegistrarCurso(this);
         }
         public void RegistrarAlunos(Aluno aluno)
         {
+            if (Alunos.Contains(aluno))
+                throw new ArgumentException("Aluno já registrado");
             Alunos.Add(aluno);
             aluno.RegistrarCursos(this);
+        }
+
+        public Disciplina ObterDisciplinaPeloNome(string nome)
+        {
+            var nomeEncontrado = Disciplinas.FirstOrDefault(p => p.Nome.Equals(nome));
+            if (nomeEncontrado == null)
+            {
+                throw new ArgumentException("Nome não encontrado", nameof(nome));
+            }
+            return nomeEncontrado;
+        }
+
+        public Professor ObterProfessorPeloNome(string nome)
+        {
+            var nomeEncontrado = Professores.FirstOrDefault(p => p.Nome.Equals(nome));
+            if (nomeEncontrado == null)
+            {
+                throw new ArgumentException("Nome não encontrado", nameof(nome));
+            }
+            return nomeEncontrado;
+        }
+        public Turma ObterTurmaPeloCodigo(string Codigo)
+        {
+            var nomeEncontrado = Turmas.FirstOrDefault(p => p.Codigo.Equals(Codigo));
+            if (nomeEncontrado == null)
+            {
+                throw new ArgumentException("Codigo não encontrado", nameof(Codigo));
+            }
+            return nomeEncontrado;
+        }
+        public Aluno ObterAlunoPeloNome(string nome)
+        {
+            var nomeEncontrado = Alunos.FirstOrDefault(p => p.Nome.Equals(nome));
+            if (nomeEncontrado == null)
+            {
+                throw new ArgumentException("Nome não encontrado" , nameof(nome));
+            }
+            return nomeEncontrado;
         }
         public int ObterQtdDisciplinas()
         {
             return Disciplinas.Count;
         }
-        public Disciplina ObterDisciplinaPeloNome(string nome)
+        public int ObterQtdTurmas()
         {
-            return Disciplinas.FirstOrDefault(p => p.Nome.Equals(nome));
+            return Turmas.Count;
         }
-        public Professor ObterProfessorPeloNome(string nome)
+        public int ObterQtdProfessores()
         {
-            return Professores.FirstOrDefault(p => p.Nome.Equals(nome));
+            return Professores.Count;
         }
-        public Turma ObterTurmaPeloCodigo(string Codigo)
+        public int ObterQtdAlunos()
         {
-            return Turmas.FirstOrDefault(p => p.Codigo.Equals(Codigo));
+            return Alunos.Count;
         }
         public void EncerrarCurso()
         {
-            privateDisciplinas.Clear();
-            privateProfessores.Clear();
-            privateTurma.Clear();
+            Disciplinas.Clear();
+            Professores.Clear();
+            Turmas.Clear();
+            Alunos.Clear();
         }
         public override string ToString()
         {

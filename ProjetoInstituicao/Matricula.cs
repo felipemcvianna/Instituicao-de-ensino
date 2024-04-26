@@ -26,12 +26,16 @@ public class Matricula
                 Disciplina.Nome.Equals(mat.Disciplina.Nome);
         }
         return false;
-    }
+    }    
     public override int GetHashCode()
     {
         return (11 + ((Aluno.RegistroAcademico == null || Turma.Codigo == null || Disciplina.Nome == null) ? 0 :
             Aluno.RegistroAcademico.GetHashCode() +
             Turma.Codigo.GetHashCode() +
             Disciplina.Nome.GetHashCode()));
+    }
+    public override string ToString()
+    {
+        return $"Aluno: {Aluno.Nome} \nmatriculado na disciplina {Disciplina} \ne na turma {Turma}";
     }
 }

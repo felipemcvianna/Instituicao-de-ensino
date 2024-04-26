@@ -16,7 +16,7 @@
                 if (value != null && !value.Departamentos.Contains(this))
                 {
                     PrivateIntituicao = value;
-                    PrivateIntituicao.RegistrarDep(this);
+                    PrivateIntituicao.RegistrarDepartamento(this);
                 }
             }
         }

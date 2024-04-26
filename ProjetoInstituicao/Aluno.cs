@@ -5,24 +5,24 @@ namespace ProjetoInstituicao
     public class Aluno
     {
         public string Nome { get; set; }
-        public string RegistroAcademico { get; set; }
-        public HashSet<Curso> Cursos { get; set; } = new HashSet<Curso>();
+        public string RegistroAcademico { get; set; }                
+        public HashSet<Curso> Cursos => new HashSet<Curso>();        
+        public HashSet<Matricula> Matriculas = new HashSet<Matricula>();
         public Aluno(string nome, string Registro, Curso Cursos)
         {
             Nome = nome;
             RegistroAcademico = Registro;
-            Cursos.RegistrarAlunos(this);         
+            Cursos.RegistrarAlunos(this);
         }
+
         public void RegistrarCursos(Curso curso)
         {
-            if(!Cursos.Contains(curso))
-            {
-                Cursos.Add(curso);
-            }
-            else
-            {
-                throw new InvalidOperationException("Curso já registrado");
-            }
+            Cursos.Add(curso);
+        }
+        public void RegistraMatricula(Matricula mat)
+        {
+            Matriculas.Add(mat);
+            mat.Aluno = this;
         }
         public override bool Equals(object? obj)
         {

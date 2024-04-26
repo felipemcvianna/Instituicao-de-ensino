@@ -5,9 +5,15 @@
         public string Nome { get; set; }
         public Endereco Enderecos { get; set; }
         public HashSet<Departamento> Departamentos = new HashSet<Departamento>();
-        public void RegistrarDep(Departamento dep)
+
+        //Sobrecarga de métodos
+        public void RegistrarDepartamento(Departamento dep)
         {
             Departamentos.Add(dep);
+        }
+        public void RegistrarDepartamento(string Nome)
+        {
+            Departamentos.Add(new Departamento() { Nome = Nome });
         }
         public int ObterQuantidadeDep()
         {
@@ -16,39 +22,6 @@
         public override string ToString()
         {
             return Nome;
-        }
-        public void Mostrar()
-        {
-            Console.WriteLine($"\n\nDepartamentos da instituicao de ensino {Nome}\n");
-            if (Departamentos.Count != 0)
-            {
-                foreach (var departamentos in Departamentos)
-                {
-
-                    int varriavel = departamentos.Nome.Length;
-                    string linha = new string('-', varriavel);
-                    Console.WriteLine(linha);
-                    Console.WriteLine($"{departamentos}");
-                    Console.WriteLine(linha);
-                    Console.WriteLine($"\nCursos do {departamentos}\n");
-                    foreach (var cursos in departamentos.Cursos)
-                    {
-                        Console.WriteLine($"==> {cursos}");
-                        if (cursos.Disciplinas.Count() > 0)
-                        {
-                            Console.WriteLine($"Disciplinas do Curso {cursos}");
-                            foreach (var disciplinas in cursos.Disciplinas)
-                            {
-                                Console.WriteLine($"==> {disciplinas} \n");
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("Vazio");
-            }
         }
         public override int GetHashCode()
         {

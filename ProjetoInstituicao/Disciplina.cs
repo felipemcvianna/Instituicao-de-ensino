@@ -5,10 +5,9 @@ namespace Primeiroprojeto
     public class Disciplina
     {
         public string Nome { get; set; }
-        public int CargaHoraria { get; set; }
-        private HashSet<Matricula> privateMatricula = new HashSet<Matricula>();
-        public HashSet<Matricula> Matriculas => new HashSet<Matricula>(privateMatricula);
-        public HashSet<Curso> Cursos { get; set; } = new HashSet<Curso>();
+        public int CargaHoraria { get; set; }                
+        public HashSet<Matricula> Matriculas = new HashSet<Matricula>();       
+        public HashSet<Curso> Cursos => new HashSet<Curso>();
         public Disciplina(string nome, Curso curso, int cargahoraria)
         {
             Nome = nome;
@@ -20,12 +19,11 @@ namespace Primeiroprojeto
             Matriculas.Add(mat);
             mat.Disciplina = this;
         }
-
         public void RegistrarCursos(Curso cursos)
         {
             if (!Cursos.Contains(cursos))
             {
-                Cursos.Add(cursos);
+                Cursos.Add(cursos);                
             }
         }
         public override bool Equals(object? obj)
@@ -43,7 +41,7 @@ namespace Primeiroprojeto
         }
         public override string ToString()
         {
-            return "Nome: " + Nome + "\nCarga horária: " + CargaHoraria;
+            return  Nome + "\nCarga horária: " + CargaHoraria;
         }
     }
 }

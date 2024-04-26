@@ -8,6 +8,6 @@ namespace ProjetoInstituicao.Enums
 {
     public enum TurnoTurmaEnum
     {
-        Matutino = 1, Vespertino = 3, Noturno 
+        Matutino = 1, Vespertino = 2, Noturno 
     }
 }

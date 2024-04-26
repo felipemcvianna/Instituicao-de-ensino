@@ -8,15 +8,15 @@ namespace ProjetoInstituicao.Enums
 {
     public enum PeriodoCursoEnum
     {
-        Primeiro,
-        Segundo,
-        Terceiro,
-        Quarto,
-        Quinto,
-        Sexto,
-        Sétimo,
-        Oitavo,
-        Nono,
-        Décimo
+        Primeiro = 1,
+        Segundo = 2,
+        Terceiro = 3,
+        Quarto = 4,
+        Quinto = 5,
+        Sexto = 6,
+        Sétimo = 7,
+        Oitavo = 8,
+        Nono = 9,
+        Décimo 
     }
 }
